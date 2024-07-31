@@ -62,7 +62,7 @@ button:hover {
 
   align-items: center;
   height: 100vh;
-  margin-top: 20px; /* adjust this value to center the container vertically */
+  margin-top: 20px; 
 }
 
 .sign-in-form {
@@ -71,7 +71,7 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px; /* adjust this value to set the width of the form */
+  width: 300px; 
 }
 .homePage {
   display: flex;
@@ -104,4 +104,21 @@ button:hover {
 
 .homePage button:hover {
   background-color: #0056b3;
+}
+.sign-off-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.sign-off-button:hover {
+  background-color: #ff3333;
 }

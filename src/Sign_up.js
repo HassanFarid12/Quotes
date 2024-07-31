@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
 
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function Sign_up() {
     const [magicQuote, setMagicQuote] = useState('');
     const [userQuotes, setUserQuotes] = useState([]);
@@ -9,6 +9,7 @@ function Sign_up() {
     const [signedIn, setSignedIn] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const cachedQuotes = localStorage.getItem('quotes');
@@ -26,20 +27,26 @@ function Sign_up() {
             setPassword(cachedPassword);
         }
     }, []);
-
+//   save username and pass  and signin in local storage
     const handleSignIn = () => {
         localStorage.setItem('username', username);
         localStorage.setItem('password', password);
         setSignedIn(true);
-        handleQuoteGeneration(); // Generate magic quote after sign in
+        handleQuoteGeneration(); 
     };
-
-    // const handleSignUp = () => {
-    //     localStorage.setItem('username', username);
-    //     localStorage.setItem('password', password);
-    //     setSignedIn(true);
-    //     handleQuoteGeneration(); // Generate magic quote after sign up
-    // };
+    // resets the state, and navigates the user back to the home page.
+    const handleSignOff = () => {      
+        localStorage.removeItem('username');
+        localStorage.removeItem('password');
+        localStorage.removeItem('quotes');
+        setMagicQuote('');
+        setUserQuotes([]);
+        setSearchTerm('');
+        setUsername('');
+        setPassword('');
+        setSignedIn(false);
+        navigate('/');
+    };
 
     const handleQuoteGeneration = async () => {
         try {
@@ -71,19 +78,21 @@ function Sign_up() {
     return (
         <div className="container">
             {signedIn && (
-                <div className="quote-display magic-quote">
-                    <h2>Magic Quote</h2>
-                    <p>{magicQuote}</p>
-                    <button onClick={handleQuoteGeneration}>Generate New Quote</button>
-                </div>
-            )}
+             <div className="quote-display magic-quote">
+            <h2>Magic Quote</h2>
+        <p>{magicQuote}</p>
+        <button onClick={handleQuoteGeneration}>Generate New Quote</button>
+        <button className="sign-off-button" onClick={handleSignOff}>Sign Off</button>
+    </div>
+)}
+
             {signedIn && (
                 <div className="quote-display user-quotes">
                     <h2>Your Quotes</h2>
                     <ul>
                         {userQuotes
-                           .filter((quote) => quote.includes(searchTerm))
-                           .map((quote, index) => (
+                            .filter((quote) => quote.includes(searchTerm))
+                            .map((quote, index) => (
                                 <li key={index}>
                                     {quote}
                                     <button onClick={() => handleDeleteQuote(quote)}>Delete</button>
